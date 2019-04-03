@@ -1,15 +1,13 @@
 language: python
 python:
-  - "3.6"
+- '3.6'
 services:
-  - docker
+- docker
 install:
-  - pip install pipenv
-  - pipenv install --dev
+- pip install pipenv
+- pipenv install --dev
 script:
-  #- pipenv run coverage run --source './' --omit './test/*' -m pytest
-  #- pipenv run coverage report
-  - pipenv lock -r > requirements.txt
+- pipenv lock -r > requirements.txt
 deploy:
   provider: script
   script: bash ./deploy.sh
@@ -18,5 +16,5 @@ deploy:
     tags: true
 env:
   global:
-    - DOCKER_USERNAME=doriancz
-    - secure: 29x/lnwuRPXkg9VHthJag3Y8/UJrLAcRYXWrLjeVMMOW0BxuDoRHffOyUc/4KQR8eD7Cl4zFExW7CdTLBn7EHgdx90I7EgIRrvtYfxCTQme7HX4R3sIaHRu0w9vEixQSxoi61dmbhUbqA22nZY8pTKxg3zoRLqq6mcO9IZFIySkEcz7Pj3tlYdy5g68gdWDqW1655roYMe08TELq5cErQF6TAy9SBaZprYBjoQoJ0+nRI4CFlA72n29710FrUcAvUwEhtxTXefpQmFjLpKKuBhxsVewCw/6/H7fInN15WF5LO/W9QV14F/cycW5buI4fJpi9SAwMHPBFoQnjyAM9uOB4TJrG4fmKCMdGZ5vkJ68rhtu2pCFrtjbNEfRh+/dOCEgKTXxsuJY+jxquae2GfxXjgwfIyf0vUTHhaJgHktZ5v02PTJANCyKpAo0KdxBtrMqXDzS9tJXY49aopJFcEFMB+HRObT4e1/dZSN49/Z0HWqx4hOAjtaOtJR5pLl1rbayKIJ3/Cw9txBYtOqNjRpgwy7GuGqLZI4gNVw/h62mEb0T/6NIfd4jXTeWuMadkMVX5QgZAvTyYLzTdGwntLp8ElsrNusiQnfYaLF45JL+rYwuWDV8OR739ooJodFnUXeM+OAoGEQxym+KarPCeCzX/i2V+i+pl55qA2y2ktJQ=
+  - DOCKER_USERNAME=doriancz
+  - secure: QFm3c3OaprRS57NoCgxKQ35nD+weyxapX154SlkRTKMimtobrw/ZHrBlBkcrEr9yQn69OMVEqZGbl74qx5X9BI8TLb7l6hryThLGpNxvdhXm2VTNvQ4ATIkNVQ4LdG7vigVdEDV7F48L5Zvg+l6g224sBbcDJ34DEtoCGCt6rpHh29BDGCMW4R6pLhqcP3O7hqoMJRwijFFcyIKat4p3xFolWdh66WEc7jccv1D5a2uRsjRX16m+Ti8HXXtuhBt27o6FNvU7Nz0jtNBfZzbi7nJ+zpxueJNx6OQXcmYKMdIT49EEpwyaoBN8MaJKf3VqWZLXbVw5H9oUMUE+AnBkJ9dbXzfooV5t0gsFqGHj8qq465wjMK0w8g/H7phtlLrdz6wqjdaqFgROhKvH263rLEanzna/+NYIyt/nU5ZIOo/Qz6AU/THkICQYMu+Sc23ua8riyv3v0YvA60xnezODn29kFk7O4fRcEQ2PJ1Y204vAj5G1nkocCz90vyIzw7tJlMKI++b7h9hXMdeFj5F0k9whnZmblAiQUuX9V5o53dNi2lKzB2fGwI+R883x9hnByASWIFPXt7KF7q1a/TwRfBx6imSoAEmJwqRdaYfWPluurUJbs1hEdK8ghhUtLsJjgmS+oZf1tKdRUr/wd7kS5odW+674RVdskfWqiogW0eQ=
