@@ -22,10 +22,23 @@ Daily trigger to tell evening activities (optional)
 ```json
 {
     "payload":{
-        "start_from":"DHBW",
+        "date":"2019-04-01", // YYYY-MM-DD
         "location":"Stuttgart, Hauptbahnhof"
     }
 }
 
 ```
-##### answer-format TBD
+##### response-format 
+```json
+{
+    "category": "concerts",
+    "description": "",
+    "location": [
+            9.16122,
+            48.770088
+        ],
+    "start": "2019-04-27T19:00:00Z",
+    "title": "Bernd Begemann - Der elektrische Liedermacher",
+    "realStartTime": "2019-04-27T18:00:00Z" // latest time to leave towards the event
+}
+```
