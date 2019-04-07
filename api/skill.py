@@ -14,13 +14,14 @@ from app import PREFSTORE_CLIENT, CONCERN_CLIENT
 
 def getLatestAppointmentOnDay(user, date):
     payload = {
-        "date": date,
+        "date": "2019-04-07T20:11:19+00:00",
         "user": user
     }
+
     data = CONCERN_CLIENT.getConcern(user, "calendar", "event_date", payload)
-    event = max(data.events, key=lambda x: dateutil.parser.parse(x.end))
-    logger.error("Last Event of date is: " + str(event))
-    startTime = dateutil.parser.parse(event.begin)
+    event = max(data.setdefault('events', []), key=lambda x: dateutil.parser.parse(x['end']))
+    logger.error("Last Event of date is: " + repr(event))
+    startTime = dateutil.parser.parse(event['end'])
     return calendar.timegm(startTime.utctimetuple())
 
 def getPossibleEvents(user, date, freeTimeStarts, categories):
