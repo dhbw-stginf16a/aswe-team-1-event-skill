@@ -39,10 +39,12 @@ class ConcernClient:
             "type": request_type,
             "payload": payload
         }
-        resp = requests.patch("{}/monitoring/{}".format(self.base_url, monitor), json=data).json()
-        assert resp.status_code == 200
-        logger.debug(resp[0]['payload'])
-        return resp[0].setdefault('payload', {})
+#        resp = requests.post("{}/monitoring/{}".format(self.base_url, monitor), json=data).json()
+        logger.error("requesting the following: " + repr(data))
+        resp = requests.post(f'{self.base_url}/monitoring/{monitor}', json=data)
+        assert resp.status_code == 200, "Error from concern returned" + repr(resp)
+        logger.error("Received: " + repr(resp.json()))
+        return resp.json()[0]['payload']
 
 
 PREFSTORE_CLIENT = PrefStoreClient(CENTRAL_NODE_BASE_URL)
