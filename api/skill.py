@@ -14,13 +14,14 @@ from app import PREFSTORE_CLIENT, CONCERN_CLIENT
 
 def getLatestAppointmentOnDay(user, date):
     payload = {
-        "date": date,
+        "date": "2019-04-07T20:11:19+00:00",
         "user": user
     }
+
     data = CONCERN_CLIENT.getConcern(user, "calendar", "event_date", payload)
-    event = max(data.events, key=lambda x: dateutil.parser.parse(x.end))
-    logger.debug("Last Event of date is: " + str(event))
-    startTime = dateutil.parser.parse(event.begin)
+    event = max(data.setdefault('events', []), key=lambda x: dateutil.parser.parse(x['end']))
+    logger.error("Last Event of date is: " + repr(event))
+    startTime = dateutil.parser.parse(event['end'])
     return calendar.timegm(startTime.utctimetuple())
 
 def getPossibleEvents(user, date, freeTimeStarts, categories):
@@ -47,7 +48,7 @@ def getRoute(user, start, destination, arriveby):
         "travelmode": "driving"
     }
     data = CONCERN_CLIENT.getConcern(user, "traffic", "traffic_route", payload)
-    logger.debug(data.setDefault('routes', "routes Key Not Found in response"))
+    logger.error(data.setDefault('routes', "routes Key Not Found in response"))
     routes = data.setDefault('routes', None)
     if routes is not None:
         return routes[0] # just return the first route
@@ -88,7 +89,7 @@ def get_evening_event(user, date, location):
             possibility['realStartTime'] = getTimeToDrive(user, location, possibility['start'], f'@{coords}')
         else:
             ## if location not found just skip and write to log
-            logger.debug("Event Location not set" % possibility)
+            logger.error("Event Location not set" % possibility)
 
     filter(lambda o: o['realStartTime'] > freeTimeStarts, possibilities) # TODO make sure time comparision works as expected
 
