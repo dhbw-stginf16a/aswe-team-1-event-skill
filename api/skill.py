@@ -57,7 +57,8 @@ def getRoute(user, start, destination, arriveby):
 
 def getTimeToDrive(user, start_location, start_time, event_location):
     dt = dateutil.parser.parse(start_time)
-    arriveby = dt.timestamp
+    arriveby = calendar.timegm(dt.utctimetuple())
+    logger.error(f"ArriveBy: {arriveby}")
 
     route = getRoute(user, start_location, event_location, arriveby)
     if route.setdefault('duration', None) is not None:
@@ -81,13 +82,16 @@ def get_evening_event(user, date, location):
         location = preferences['home_address']
 
     possibilities = getPossibleEvents(user, date, freeTimeStarts, preferences.setdefault('event_types', "concerts;performing-arts"))
+    logger.error(f"Events: {possibilities}")
 
     for possibility in possibilities:
         eventlocation = possibility.setdefault('location', None)
         if eventlocation is not None:
-            logger.error(f"{eventlocation}")
-            coords = f"{eventlocation[0]},{eventlocation[1]}"
-            possibility['realStartTime'] = getTimeToDrive(user, location, possibility['start'], f'@{coords}')
+            coords = f"{eventlocation[1]},{eventlocation[0]}"
+            logger.error(f"Event Location: {eventlocation}")
+            logger.error(f"Event Start: {possibility['start']}")
+            possibility['realStartTime'] = getTimeToDrive(user, location, possibility['start'], coords)
+            logger.error(f"LeavyBy (realStartTime): {possibility['realStartTime']}")
         else:
             ## if location not found just skip and write to log
             logger.error("Event Location not set" % possibility)
