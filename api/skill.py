@@ -23,13 +23,15 @@ def getLatestAppointmentOnDay(user, date):
     startTime = dateutil.parser.parse(event.begin)
     return calendar.timegm(startTime.utctimetuple())
 
-def getPossibleEvents(user, date, freeTimeStarts):
+def getPossibleEvents(user, date, freeTimeStarts, categories):
     # Convert time to datetime object to work with it
     dt = dateutil.parser.parse(date)
     # Add a day to get a 1 day timeframe
     dt_end = dt.now() + datetime.timedelta(days=1)
+    cat = categories.split(';')
+
     payload = {
-        "categories": ["concerts", "performing-arts"],
+        "categories": cat,
         "location": "@48.7744476,9.1714984,17.5",
         "start_date": dt.strftime("%Y-%m-%d"),
         "end_date": dt_end.strftime("%Y-%m-%d")
@@ -72,12 +74,12 @@ def get_evening_event(user, date, location):
     preferences = PREFSTORE_CLIENT.get_user_prefs(user)
 
     if location is None:
-        if preferences['home'] is None:
+        if preferences['home_address'] is None:
             logger.error("Couldn't find home location for user: " + user)
             return {"error": "Couldn't find home location for user: " + user}, 400
-        location = preferences['home']
+        location = preferences['home_address']
 
-    possibilities = getPossibleEvents(user, date, freeTimeStarts)
+    possibilities = getPossibleEvents(user, date, freeTimeStarts, preferences.setdefault('event_types', "concerts;performing-arts"))
 
     for possibility in possibilities:
         eventlocation = possibility.setdefault('location', None)
