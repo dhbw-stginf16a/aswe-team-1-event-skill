@@ -102,7 +102,7 @@ def get_evening_event(user, date, location):
 
     random.shuffle(possibilities)
 
-    return possibilities[0], 200  # TODO Adjust the structure of the return value
+    return { "success": True, "payload": possibilities[0] }, 200
 
 def request(body):
     print("Skill request: {}".format(body))
