@@ -40,12 +40,11 @@ def getPossibleEvents(user, date, freeTimeStarts, categories):
     data = CONCERN_CLIENT.getConcern(user, "events", "current_events", payload)
     return data.setdefault('events', None)
 
-def getRoute(user, start, destination, arriveby):
+def getRoute(user, start, destination):
     payload = {
         "location": start,
         "destination": destination,
-        "arriveby": arriveby,
-        "travelmode": "driving"
+        "travelmode": ["driving"]
     }
     data = CONCERN_CLIENT.getConcern(user, "traffic", "traffic_route", payload)
     logger.error(data.setDefault('routes', "routes Key Not Found in response"))
@@ -57,14 +56,14 @@ def getRoute(user, start, destination, arriveby):
 
 def getTimeToDrive(user, start_location, start_time, event_location):
     dt = dateutil.parser.parse(start_time)
-    arriveby = calendar.timegm(dt.utctimetuple())
-    logger.error(f"ArriveBy: {arriveby}")
 
-    route = getRoute(user, start_location, event_location, arriveby)
+    route = getRoute(user, start_location, event_location)
     if route.setdefault('duration', None) is not None:
         duration = route['duration']
-        leaveby = dt - datetime.timedelta(seconds=duration)
-        return leaveby.isoformat
+        dt_leaveby = dt - datetime.timedelta(seconds=duration)
+        leaveby = calendar.timegm(dt_leaveby.utctimetuple())
+        logger.error(f"LeaveBy: {leaveby}")
+        return leaveby
     else:
         raise BaseException("Duration information not found") 
 
