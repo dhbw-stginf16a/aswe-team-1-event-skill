@@ -47,8 +47,8 @@ def getRoute(user, start, destination):
         "travelmode": ["driving"]
     }
     data = CONCERN_CLIENT.getConcern(user, "traffic", "traffic_route", payload)
-    logger.error(data.setDefault('routes', "routes Key Not Found in response"))
-    routes = data.setDefault('routes', None)
+    logger.error(data.setdefault('routes', "routes Key Not Found in response"))
+    routes = data.setdefault('routes', None)
     if routes is not None:
         return routes[0] # just return the first route
     else:
