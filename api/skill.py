@@ -14,7 +14,7 @@ from app import PREFSTORE_CLIENT, CONCERN_CLIENT
 
 def getLatestAppointmentOnDay(user, date):
     payload = {
-        "date": "2019-04-07T20:11:19+00:00",
+        "date": "2019-04-08T15:00:00+00:00",
         "user": user
     }
 
